@@ -45,6 +45,11 @@ int additionalVolumeCredits(PlayData play, Performance aPerformance) {
     return result;
 }
 
+std::string statementLineForSinglePerformance(PlayData play, Performance aPerformance, int amount) {
+    return play.m_name + ": " + floatToDollars(amount / 100) + " " + std::to_string(aPerformance.m_audience) + " seats\n";
+
+}
+
 std::string statement(Invoice invoice, Plays plays) {
     int totalAmount = 0;
     int volumeCredits = 0;
@@ -56,7 +61,7 @@ std::string statement(Invoice invoice, Plays plays) {
         int thisAmount = amountFor(plays, performance);
         volumeCredits += additionalVolumeCredits(play, performance);
         // print line for this order
-        ret += play.m_name + ": " + floatToDollars(thisAmount / 100) + " " + std::to_string(performance.m_audience) + " seats\n";
+        ret += statementLineForSinglePerformance(play, performance, thisAmount);
         totalAmount += thisAmount;
     }
 
