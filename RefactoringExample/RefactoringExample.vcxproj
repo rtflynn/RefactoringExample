@@ -141,6 +141,12 @@
   <ItemGroup>
     <ClCompile Include="RefactoringExample.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="invoices.h" />
+    <ClInclude Include="plays.h" />
+    <ClInclude Include="refactoring_example.h" />
+    <ClInclude Include="set_precision.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

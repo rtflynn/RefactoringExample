@@ -19,4 +19,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="plays.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invoices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="set_precision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="refactoring_example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
