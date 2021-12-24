@@ -60,19 +60,24 @@ int totalVolumeCreditsFor(Invoice invoice, Plays plays) {
     return volumeCredits;
 }
 
-std::string statement(Invoice invoice, Plays plays) {
-    std::string result = "Statement for " + invoice.m_customer + ":\n";
-
+int totalAmountFor(Invoice invoice, Plays plays) {
     int totalAmount = 0;
-    for (Performance performance : invoice.m_performances) {
-        result += statementLineForSinglePerformance(
-            playFor(plays, performance), performance, amountFor(plays, performance));
-    }
     for (Performance performance : invoice.m_performances) {
         PlayData play = playFor(plays, performance);
         int thisAmount = amountFor(plays, performance);
         totalAmount += thisAmount;
     }
+    return totalAmount;
+}
+
+std::string statement(Invoice invoice, Plays plays) {
+    std::string result = "Statement for " + invoice.m_customer + ":\n";
+
+    for (Performance performance : invoice.m_performances) {
+        result += statementLineForSinglePerformance(
+            playFor(plays, performance), performance, amountFor(plays, performance));
+    }
+    int totalAmount = totalAmountFor(invoice, plays);
     int volumeCredits = totalVolumeCreditsFor(invoice, plays);
 
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
