@@ -65,9 +65,12 @@ std::string statement(Invoice invoice, Plays plays) {
 
     int totalAmount = 0;
     for (Performance performance : invoice.m_performances) {
+        result += statementLineForSinglePerformance(
+            playFor(plays, performance), performance, amountFor(plays, performance));
+    }
+    for (Performance performance : invoice.m_performances) {
         PlayData play = playFor(plays, performance);
         int thisAmount = amountFor(plays, performance);
-        result += statementLineForSinglePerformance(play, performance, thisAmount);
         totalAmount += thisAmount;
     }
     int volumeCredits = totalVolumeCreditsFor(invoice, plays);
