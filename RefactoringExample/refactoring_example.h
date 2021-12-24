@@ -7,7 +7,8 @@
 #include "math.h""
 #include "set_precision.h"
 
-int amountFor(PlayData aPlayData, Performance aPerformance) {
+int amountFor(Performance aPerformance) {
+    PlayData aPlayData = plays.m_plays[aPerformance.m_playID];
     int result = 0;
     switch (aPlayData.m_type) {
     case playType::tragedy:
@@ -36,7 +37,7 @@ std::string statement(Invoice invoice, Plays plays) {
     // Some formatting stuff here.  Don't think I really need it.
     for (Performance performance : invoice.m_performances) {
         PlayData play = plays.m_plays[performance.m_playID];
-        int thisAmount = amountFor(play, performance);
+        int thisAmount = amountFor(performance);
         // Add volume credits
         volumeCredits += std::max(performance.m_audience - 30, 0);
         // Add extra credit for every ten comedy attendees
