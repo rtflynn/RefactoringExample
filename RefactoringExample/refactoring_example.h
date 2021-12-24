@@ -35,12 +35,14 @@ PlayData playFor(Plays& plays, Performance& performance) {
     return plays.m_plays[playID];
 }
 
-void addVolumeCredits(PlayData play, Performance aPerformance, int& volumeCredits) {
-    volumeCredits += std::max(aPerformance.m_audience - 30, 0);
+int additionalVolumeCredits(PlayData play, Performance aPerformance) {
+    int result = 0;
+    result += std::max(aPerformance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
     if (play.m_type == playType::comedy) {
-        volumeCredits += std::floor(aPerformance.m_audience / 5);
+        result += std::floor(aPerformance.m_audience / 5);
     }
+    return result;
 }
 
 std::string statement(Invoice invoice, Plays plays) {
@@ -52,8 +54,7 @@ std::string statement(Invoice invoice, Plays plays) {
     for (Performance performance : invoice.m_performances) {
         PlayData play = playFor(plays, performance);
         int thisAmount = amountFor(plays, performance);
-        // Add volume credits
-        addVolumeCredits(play, performance, volumeCredits);
+        volumeCredits += additionalVolumeCredits(play, performance);
         // print line for this order
         ret += play.m_name + ": " + floatToDollars(thisAmount / 100) + " " + std::to_string(performance.m_audience) + " seats\n";
         totalAmount += thisAmount;
