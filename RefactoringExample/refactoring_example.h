@@ -7,8 +7,8 @@
 #include "math.h""
 #include "set_precision.h"
 
-int amountFor(Performance aPerformance) {
-    PlayData aPlayData = plays.m_plays[aPerformance.m_playID];
+int amountFor(Plays& plays, Performance aPerformance) {
+    PlayData aPlayData = playFor(plays, aPerformance);
     int result = 0;
     switch (aPlayData.m_type) {
     case playType::tragedy:
@@ -30,20 +30,30 @@ int amountFor(Performance aPerformance) {
     return result;
 }
 
+PlayData playFor(Plays& plays, Performance& performance) {
+    std::string playID = performance.m_playID;
+    return plays.m_plays[playID];
+}
+
+void addVolumeCredits(PlayData play, Performance aPerformance, int& volumeCredits) {
+    volumeCredits += std::max(aPerformance.m_audience - 30, 0);
+    // Add extra credit for every ten comedy attendees
+    if (play.m_type == playType::comedy) {
+        volumeCredits += std::floor(aPerformance.m_audience / 5);
+    }
+}
+
 std::string statement(Invoice invoice, Plays plays) {
     int totalAmount = 0;
     int volumeCredits = 0;
     std::string ret = "Statement for " + invoice.m_customer + ":\n";
+
     // Some formatting stuff here.  Don't think I really need it.
     for (Performance performance : invoice.m_performances) {
-        PlayData play = plays.m_plays[performance.m_playID];
-        int thisAmount = amountFor(performance);
+        PlayData play = playFor(plays, performance);
+        int thisAmount = amountFor(plays, performance);
         // Add volume credits
-        volumeCredits += std::max(performance.m_audience - 30, 0);
-        // Add extra credit for every ten comedy attendees
-        if (play.m_type == playType::comedy) {
-            volumeCredits += std::floor(performance.m_audience / 5);
-        }
+        addVolumeCredits(play, performance, volumeCredits);
         // print line for this order
         ret += play.m_name + ": " + floatToDollars(thisAmount / 100) + " " + std::to_string(performance.m_audience) + " seats\n";
         totalAmount += thisAmount;
