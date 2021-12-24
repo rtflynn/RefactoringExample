@@ -4,8 +4,14 @@
 #include "invoices.h"
 #include <format>
 #include <exception> 
-#include "math.h""
+#include "math.h"
 #include "set_precision.h"
+
+
+PlayData playFor(Plays& plays, Performance& performance) {
+    std::string playID = performance.m_playID;
+    return plays.m_plays[playID];
+}
 
 int amountFor(Plays& plays, Performance aPerformance) {
     PlayData aPlayData = playFor(plays, aPerformance);
@@ -30,11 +36,6 @@ int amountFor(Plays& plays, Performance aPerformance) {
     return result;
 }
 
-PlayData playFor(Plays& plays, Performance& performance) {
-    std::string playID = performance.m_playID;
-    return plays.m_plays[playID];
-}
-
 int volumeCreditsFor(PlayData play, Performance aPerformance) {
     int result = 0;
     result += std::max(aPerformance.m_audience - 30, 0);
@@ -46,7 +47,7 @@ int volumeCreditsFor(PlayData play, Performance aPerformance) {
 }
 
 std::string statementLineForSinglePerformance(PlayData play, Performance aPerformance, int amount) {
-    return play.m_name + ": " + floatToDollars(amount / 100) + " " + std::to_string(aPerformance.m_audience) + " seats\n";
+    return play.m_name + ": $" + floatToDollars(amount / 100) + " " + std::to_string(aPerformance.m_audience) + " seats\n";
 
 }
 
@@ -65,7 +66,7 @@ std::string statement(Invoice invoice, Plays plays) {
         totalAmount += thisAmount;
     }
 
-    ret += "Amount owed is " + floatToDollars(totalAmount / 100) + "\n";
+    ret += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     ret += "You earned " + std::to_string(volumeCredits) + " credits.\n";
     return ret;
 }
