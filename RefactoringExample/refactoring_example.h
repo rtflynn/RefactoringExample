@@ -72,10 +72,23 @@ int totalAmountFor(Invoice invoice, Plays plays) {
 
 std::string statement(Invoice invoice, Plays plays) {
     std::string result = "Statement for " + invoice.m_customer + ":\n";
-
     for (Performance performance : invoice.m_performances) {
         result += statementLineForSinglePerformance(plays, performance);
     }
+    /*
+    Note, I'm not inlining totalAmount and volumeCredits because the
+    signatures of total*For are too large to merit inlining. If we
+    were to have invoice or plays or both as global variables or instance
+    variables, this would change and this code would become even more succinct.
+    At this point, things are clean and separated enough that we can start to
+    look into adding HTML-return functionality, or various other types of
+    functionality like dynamically adding plays and performances.
+
+    For the HTML side of things, we want an intermediate representation
+    that captures all the important info, from which we will populate either
+    an HTML template or a non-HTML template.  This separation of concerns will
+    allow us to modify the templates independently of the business logic, etc.
+    */
     int totalAmount = totalAmountFor(invoice, plays);
     int volumeCredits = totalVolumeCreditsFor(invoice, plays);
 
