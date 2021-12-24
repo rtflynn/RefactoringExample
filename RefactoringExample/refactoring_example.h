@@ -97,6 +97,19 @@ std::string renderPlainText(Invoice invoice, Plays plays) {
     return result;
 }
 
-std::string statement(Invoice invoice, Plays plays) {
-    return renderPlainText(invoice, plays);
+enum class RenderingMode {
+    plaintext, HTML
+};
+
+std::string statement(Invoice invoice, Plays plays,
+    RenderingMode mode = RenderingMode::plaintext ) {
+    switch (mode) {
+    case RenderingMode::plaintext:
+        return renderPlainText(invoice, plays);
+    case RenderingMode::HTML:
+        return "Not Implemented\n";
+    default:
+        return "Invalid mode\n";
+    }
+
 }
