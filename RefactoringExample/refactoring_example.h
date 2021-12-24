@@ -35,7 +35,7 @@ PlayData playFor(Plays& plays, Performance& performance) {
     return plays.m_plays[playID];
 }
 
-int additionalVolumeCredits(PlayData play, Performance aPerformance) {
+int volumeCreditsFor(PlayData play, Performance aPerformance) {
     int result = 0;
     result += std::max(aPerformance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
@@ -59,7 +59,7 @@ std::string statement(Invoice invoice, Plays plays) {
     for (Performance performance : invoice.m_performances) {
         PlayData play = playFor(plays, performance);
         int thisAmount = amountFor(plays, performance);
-        volumeCredits += additionalVolumeCredits(play, performance);
+        volumeCredits += volumeCreditsFor(play, performance);
         // print line for this order
         ret += statementLineForSinglePerformance(play, performance, thisAmount);
         totalAmount += thisAmount;
