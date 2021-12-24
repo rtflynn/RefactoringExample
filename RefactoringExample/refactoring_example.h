@@ -7,26 +7,26 @@
 #include "math.h""
 #include "set_precision.h"
 
-int amountFor(PlayData play, Performance performance) {
-    int thisAmount = 0;
-    switch (play.m_type) {
+int amountFor(PlayData aPlayData, Performance aPerformance) {
+    int result = 0;
+    switch (aPlayData.m_type) {
     case playType::tragedy:
-        thisAmount = 40000;
-        if (performance.m_audience > 30) {
-            thisAmount += 1000 * (performance.m_audience - 30);
+        result = 40000;
+        if (aPerformance.m_audience > 30) {
+            result += 1000 * (aPerformance.m_audience - 30);
         }
         break;
     case playType::comedy:
-        thisAmount = 30000;
-        if (performance.m_audience > 20) {
-            thisAmount += 10000 + 500 * (performance.m_audience - 20);
+        result = 30000;
+        if (aPerformance.m_audience > 20) {
+            result += 10000 + 500 * (aPerformance.m_audience - 20);
         }
-        thisAmount += 300 * performance.m_audience;
+        result += 300 * aPerformance.m_audience;
         break;
     default:
         throw std::invalid_argument("Unsupported playType.\n");
     }
-    return thisAmount;
+    return result;
 }
 
 std::string statement(Invoice invoice, Plays plays) {
