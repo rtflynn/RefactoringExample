@@ -70,7 +70,7 @@ int totalAmountFor(Invoice invoice, Plays plays) {
     return totalAmount;
 }
 
-std::string statement(Invoice invoice, Plays plays) {
+std::string renderPlainText(Invoice invoice, Plays plays) {
     std::string result = "Statement for " + invoice.m_customer + ":\n";
     for (Performance performance : invoice.m_performances) {
         result += statementLineForSinglePerformance(plays, performance);
@@ -95,4 +95,8 @@ std::string statement(Invoice invoice, Plays plays) {
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits.\n";
     return result;
+}
+
+std::string statement(Invoice invoice, Plays plays) {
+    return renderPlainText(invoice, plays);
 }
