@@ -53,17 +53,19 @@ std::string statementLineForSinglePerformance(PlayData play, Performance aPerfor
 
 std::string statement(Invoice invoice, Plays plays) {
     int totalAmount = 0;
-    int volumeCredits = 0;
     std::string ret = "Statement for " + invoice.m_customer + ":\n";
 
     // Some formatting stuff here.  Don't think I really need it.
     for (Performance performance : invoice.m_performances) {
         PlayData play = playFor(plays, performance);
         int thisAmount = amountFor(plays, performance);
-        volumeCredits += volumeCreditsFor(play, performance);
-        // print line for this order
         ret += statementLineForSinglePerformance(play, performance, thisAmount);
         totalAmount += thisAmount;
+    }
+    int volumeCredits = 0;
+    for (Performance performance : invoice.m_performances) {
+        PlayData play = playFor(plays, performance);
+        volumeCredits += volumeCreditsFor(play, performance);
     }
 
     ret += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
