@@ -6,7 +6,7 @@
 #include <exception> 
 #include "math.h"
 #include "set_precision.h"
-
+#include "rendering_modes_enum.h"
 
 PlayData playFor(Plays& plays, Performance& performance) {
     std::string playID = performance.m_playID;
@@ -97,9 +97,10 @@ std::string renderPlainText(Invoice invoice, Plays plays) {
     return result;
 }
 
-enum class RenderingMode {
-    plaintext, HTML
-};
+std::string renderHTML(Invoice invoice, Plays plays) {
+    std::string result = "<html><head></head><body></body></html>";
+    return result;
+}
 
 std::string statement(Invoice invoice, Plays plays,
     RenderingMode mode = RenderingMode::plaintext ) {
@@ -111,5 +112,4 @@ std::string statement(Invoice invoice, Plays plays,
     default:
         return "Invalid mode\n";
     }
-
 }

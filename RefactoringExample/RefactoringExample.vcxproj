@@ -145,6 +145,7 @@
     <ClInclude Include="invoices.h" />
     <ClInclude Include="plays.h" />
     <ClInclude Include="refactoring_example.h" />
+    <ClInclude Include="rendering_modes_enum.h" />
     <ClInclude Include="set_precision.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

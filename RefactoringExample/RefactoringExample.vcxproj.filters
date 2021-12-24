@@ -32,5 +32,8 @@
     <ClInclude Include="refactoring_example.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rendering_modes_enum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
