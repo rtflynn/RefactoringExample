@@ -48,7 +48,7 @@ int volumeCreditsFor(PlayData play, Performance aPerformance) {
 
 std::string statementLineForSinglePerformance(Plays plays, Performance aPerformance) {
     PlayData play = playFor(plays, aPerformance);
-    return play.m_name + ": $" + floatToDollars(amountFor(plays, aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats\n";
+    return play.m_name + ": $" + floatToDollars(amountFor(plays, aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(Invoice invoice, Plays plays) {
@@ -74,6 +74,7 @@ std::string renderPlainText(Invoice invoice, Plays plays) {
     std::string result = "Statement for " + invoice.m_customer + ":\n";
     for (Performance performance : invoice.m_performances) {
         result += statementLineForSinglePerformance(plays, performance);
+        result += "\n";
     }
     /*
     Note, I'm not inlining totalAmount and volumeCredits because the
@@ -97,8 +98,27 @@ std::string renderPlainText(Invoice invoice, Plays plays) {
     return result;
 }
 
+std::string htmlHeader(Invoice invoice) {
+    std::string result = "<html>";
+    std::string header = "Statement for " + invoice.m_customer;
+    result += "<head>" + header + "</head>";
+    return result;
+}
+
 std::string renderHTML(Invoice invoice, Plays plays) {
-    std::string result = "<html><head></head><body></body></html>";
+    std::string result = htmlHeader(invoice);
+    result += "<body>";
+    for (Performance performance : invoice.m_performances) {
+        result += "<li>";
+        result += statementLineForSinglePerformance(plays, performance);
+        result += "</li>";
+    }
+    int totalAmount = totalAmountFor(invoice, plays);
+    int volumeCredits = totalVolumeCreditsFor(invoice, plays);
+    result += "Total: $" + floatToDollars(totalAmount / 100) + "\n";
+    result += "You earned " + std::to_string(volumeCredits) + " credits";
+    result += "</body>";
+    result += "</html>";
     return result;
 }
 
@@ -108,7 +128,7 @@ std::string statement(Invoice invoice, Plays plays,
     case RenderingMode::plaintext:
         return renderPlainText(invoice, plays);
     case RenderingMode::HTML:
-        return "Not Implemented\n";
+        return renderHTML(invoice, plays);
     default:
         return "Invalid mode\n";
     }
