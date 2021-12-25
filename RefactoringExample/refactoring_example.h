@@ -115,7 +115,7 @@ std::string renderHTML(Invoice invoice, Plays plays) {
     }
     int totalAmount = totalAmountFor(invoice, plays);
     int volumeCredits = totalVolumeCreditsFor(invoice, plays);
-    result += "Total: $" + floatToDollars(totalAmount / 100) + "\n";
+    result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits";
     result += "</body>";
     result += "</html>";

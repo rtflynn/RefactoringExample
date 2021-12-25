@@ -22,7 +22,7 @@ TEST(RefactoringTest, OutputCorrectHTMLString) {
 		"<li>Hamlet: $650.00 55 seats</li>"
 		"<li>As you like it: $580.00 35 seats</li>"
 		"<li>Othello: $500.00 40 seats</li>"
-		"Total: $1730.00\nYou earned 47 credits"
+		"Amount owed is $1730.00\nYou earned 47 credits"
 		"</body>"
 		"</html>";
 	std::string expected = std::string(expected_html_test);
