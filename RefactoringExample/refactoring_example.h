@@ -8,11 +8,8 @@
 #include "set_precision.h"
 #include "rendering_modes_enum.h"
 #include "StatementData.h"
+#include "enriched_performance.h"
 
-Play playFor(Plays& plays, Performance& performance) {
-    std::string playID = performance.m_playID;
-    return plays.m_plays[playID];
-}
 
 int amountFor(Plays& plays, Performance aPerformance) {
     Play aPlayData = playFor(plays, aPerformance);
