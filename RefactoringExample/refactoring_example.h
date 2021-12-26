@@ -9,13 +9,13 @@
 #include "rendering_modes_enum.h"
 #include "StatementData.h"
 
-PlayData playFor(Plays& plays, Performance& performance) {
+Play playFor(Plays& plays, Performance& performance) {
     std::string playID = performance.m_playID;
     return plays.m_plays[playID];
 }
 
 int amountFor(Plays& plays, Performance aPerformance) {
-    PlayData aPlayData = playFor(plays, aPerformance);
+    Play aPlayData = playFor(plays, aPerformance);
     int result = 0;
     switch (aPlayData.m_type) {
     case playType::tragedy:
@@ -37,7 +37,7 @@ int amountFor(Plays& plays, Performance aPerformance) {
     return result;
 }
 
-int volumeCreditsFor(PlayData play, Performance aPerformance) {
+int volumeCreditsFor(Play play, Performance aPerformance) {
     int result = 0;
     result += std::max(aPerformance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
@@ -48,14 +48,14 @@ int volumeCreditsFor(PlayData play, Performance aPerformance) {
 }
 
 std::string statementLineForSinglePerformance(Plays plays, Performance aPerformance) {
-    PlayData play = playFor(plays, aPerformance);
+    Play play = playFor(plays, aPerformance);
     return play.m_name + ": $" + floatToDollars(amountFor(plays, aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(Plays plays, StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
-        PlayData play = playFor(plays, performance);
+        Play play = playFor(plays, performance);
         volumeCredits += volumeCreditsFor(play, performance);
     }
     return volumeCredits;
@@ -64,7 +64,7 @@ int totalVolumeCreditsFor(Plays plays, StatementData data) {
 int totalAmountFor(Plays plays, StatementData data) {
     int totalAmount = 0;
     for (Performance performance : data.performances) {
-        PlayData play = playFor(plays, performance);
+        Play play = playFor(plays, performance);
         int thisAmount = amountFor(plays, performance);
         totalAmount += thisAmount;
     }
@@ -110,11 +110,17 @@ std::string renderHTML(Plays plays, StatementData statementData) {
     return result;
 }
 
-std::string statement(Invoice invoice, Plays plays,
-    RenderingMode mode = RenderingMode::plaintext ) {
+
+StatementData statementDataFromInvoice(Invoice invoice) {
     StatementData statementData;
     statementData.customer = invoice.m_customer;
     statementData.performances = invoice.m_performances;
+    return statementData;
+}
+
+std::string statement(Invoice invoice, Plays plays,
+    RenderingMode mode = RenderingMode::plaintext ) {
+    StatementData statementData = statementDataFromInvoice(invoice);
 
     switch (mode) {
     case RenderingMode::plaintext:

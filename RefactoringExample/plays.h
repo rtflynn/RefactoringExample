@@ -8,17 +8,17 @@ enum class playType {
 	none
 };
 
-struct PlayData {
+struct Play {
 	std::string m_name;
 	playType m_type;
-	PlayData(std::string name="", playType type=playType::none) : m_name(name), m_type(type) {}
+	Play(std::string name="", playType type=playType::none) : m_name(name), m_type(type) {}
 };
-PlayData hamlet("Hamlet", playType::tragedy);
-PlayData aslike("As you like it", playType::comedy);
-PlayData othello("Othello", playType::tragedy);
+Play hamlet("Hamlet", playType::tragedy);
+Play aslike("As you like it", playType::comedy);
+Play othello("Othello", playType::tragedy);
 
 struct Plays {
-	std::unordered_map<std::string, PlayData> m_plays;
-	Plays(std::unordered_map<std::string, PlayData> plays) : m_plays(plays) {}
+	std::unordered_map<std::string, Play> m_plays;
+	Plays(std::unordered_map<std::string, Play> plays) : m_plays(plays) {}
 };
 Plays plays({ {"hamlet", hamlet}, {"as-like", aslike}, {"othello", othello} });

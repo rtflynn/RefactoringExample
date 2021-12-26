@@ -142,6 +142,7 @@
     <ClCompile Include="RefactoringExample.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enriched_performance.h" />
     <ClInclude Include="invoices.h" />
     <ClInclude Include="plays.h" />
     <ClInclude Include="refactoring_example.h" />
