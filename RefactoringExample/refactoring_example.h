@@ -12,7 +12,7 @@
 
 
 int amountFor(Plays& plays, Performance aPerformance) {
-    Play aPlayData = playFor(plays, aPerformance);
+    Play aPlayData = playFor(aPerformance);
     int result = 0;
     switch (aPlayData.m_type) {
     case playType::tragedy:
@@ -45,14 +45,14 @@ int volumeCreditsFor(Play play, Performance aPerformance) {
 }
 
 std::string statementLineForSinglePerformance(Plays plays, Performance aPerformance) {
-    Play play = playFor(plays, aPerformance);
+    Play play = playFor(aPerformance);
     return play.m_name + ": $" + floatToDollars(amountFor(plays, aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(Plays plays, StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
-        Play play = playFor(plays, performance);
+        Play play = playFor(performance);
         volumeCredits += volumeCreditsFor(play, performance);
     }
     return volumeCredits;
@@ -61,7 +61,7 @@ int totalVolumeCreditsFor(Plays plays, StatementData data) {
 int totalAmountFor(Plays plays, StatementData data) {
     int totalAmount = 0;
     for (Performance performance : data.performances) {
-        Play play = playFor(plays, performance);
+        Play play = playFor(performance);
         int thisAmount = amountFor(plays, performance);
         totalAmount += thisAmount;
     }
