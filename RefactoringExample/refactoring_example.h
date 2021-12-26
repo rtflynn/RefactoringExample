@@ -7,6 +7,7 @@
 #include "math.h"
 #include "set_precision.h"
 #include "rendering_modes_enum.h"
+#include "StatementData.h"
 
 PlayData playFor(Plays& plays, Performance& performance) {
     std::string playID = performance.m_playID;
@@ -76,20 +77,7 @@ std::string renderPlainText(Invoice invoice, Plays plays) {
         result += statementLineForSinglePerformance(plays, performance);
         result += "\n";
     }
-    /*
-    Note, I'm not inlining totalAmount and volumeCredits because the
-    signatures of total*For are too large to merit inlining. If we
-    were to have invoice or plays or both as global variables or instance
-    variables, this would change and this code would become even more succinct.
-    At this point, things are clean and separated enough that we can start to
-    look into adding HTML-return functionality, or various other types of
-    functionality like dynamically adding plays and performances.
 
-    For the HTML side of things, we want an intermediate representation
-    that captures all the important info, from which we will populate either
-    an HTML template or a non-HTML template.  This separation of concerns will
-    allow us to modify the templates independently of the business logic, etc.
-    */
     int totalAmount = totalAmountFor(invoice, plays);
     int volumeCredits = totalVolumeCreditsFor(invoice, plays);
 
@@ -98,15 +86,17 @@ std::string renderPlainText(Invoice invoice, Plays plays) {
     return result;
 }
 
-std::string htmlHeader(Invoice invoice) {
+std::string htmlHeader(Invoice invoice, StatementData data) {
     std::string result = "<html>";
-    std::string header = "Statement for " + invoice.m_customer;
+    std::string header = "Statement for " + data.customer;
     result += "<head>" + header + "</head>";
     return result;
 }
 
 std::string renderHTML(Invoice invoice, Plays plays) {
-    std::string result = htmlHeader(invoice);
+    StatementData statementData;
+    statementData.customer = invoice.m_customer;
+    std::string result = htmlHeader(invoice, statementData);
     result += "<body>";
     for (Performance performance : invoice.m_performances) {
         result += "<li>";
