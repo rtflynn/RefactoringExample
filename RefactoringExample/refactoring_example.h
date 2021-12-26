@@ -96,9 +96,10 @@ std::string htmlHeader(Invoice invoice, StatementData data) {
 std::string renderHTML(Invoice invoice, Plays plays) {
     StatementData statementData;
     statementData.customer = invoice.m_customer;
+    statementData.performances = invoice.m_performances;
     std::string result = htmlHeader(invoice, statementData);
     result += "<body>";
-    for (Performance performance : invoice.m_performances) {
+    for (Performance performance : statementData.performances) {
         result += "<li>";
         result += statementLineForSinglePerformance(plays, performance);
         result += "</li>";
