@@ -11,8 +11,8 @@
 #include "enriched_performance.h"
 
 
-int amountFor(Performance aPerformance) {
-    Play aPlayData = playFor(aPerformance);
+int amountFor(EnrichedPerformance aPerformance) {
+    Play aPlayData = aPerformance.play;
     int result = 0;
     switch (aPlayData.m_type) {
     case playType::tragedy:
@@ -45,8 +45,8 @@ int volumeCreditsFor(Performance aPerformance) {
     return result;
 }
 
-std::string statementLineForSinglePerformance(Performance aPerformance) {
-    Play play = playFor(aPerformance);
+std::string statementLineForSinglePerformance(EnrichedPerformance aPerformance) {
+    Play play = aPerformance.play;
     return play.m_name + ": $" + floatToDollars(amountFor(aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
 }
 
@@ -72,7 +72,8 @@ int totalAmountFor(StatementData data) {
 std::string renderPlainText(Invoice invoice, StatementData data) {
     std::string result = "Statement for " + invoice.m_customer + ":\n";
     for (Performance performance : invoice.m_performances) {
-        result += statementLineForSinglePerformance(performance);
+        EnrichedPerformance enriched = EnrichedPerformance(performance);
+        result += statementLineForSinglePerformance(enriched);
         result += "\n";
     }
 
