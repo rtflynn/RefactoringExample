@@ -11,22 +11,22 @@
 #include "enriched_performance.h"
 
 
-int amountFor(EnrichedPerformance aPerformance) {
-    Play aPlayData = aPerformance.play;
+int amountFor(EnrichedPerformance enriched) {
+    Play aPlayData = enriched.play;
     int result = 0;
     switch (aPlayData.m_type) {
     case playType::tragedy:
         result = 40000;
-        if (aPerformance.m_audience > 30) {
-            result += 1000 * (aPerformance.m_audience - 30);
+        if (enriched.m_audience > 30) {
+            result += 1000 * (enriched.m_audience - 30);
         }
         break;
     case playType::comedy:
         result = 30000;
-        if (aPerformance.m_audience > 20) {
-            result += 10000 + 500 * (aPerformance.m_audience - 20);
+        if (enriched.m_audience > 20) {
+            result += 10000 + 500 * (enriched.m_audience - 20);
         }
-        result += 300 * aPerformance.m_audience;
+        result += 300 * enriched.m_audience;
         break;
     default:
         throw std::invalid_argument("Unsupported playType.\n");
@@ -34,19 +34,19 @@ int amountFor(EnrichedPerformance aPerformance) {
     return result;
 }
 
-int volumeCreditsFor(EnrichedPerformance aPerformance) {
+int volumeCreditsFor(EnrichedPerformance enriched) {
     int result = 0;
-    result += std::max(aPerformance.m_audience - 30, 0);
+    result += std::max(enriched.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
-    if (aPerformance.play.m_type == playType::comedy) {
-        result += std::floor(aPerformance.m_audience / 5);
+    if (enriched.play.m_type == playType::comedy) {
+        result += std::floor(enriched.m_audience / 5);
     }
     return result;
 }
 
-std::string statementLineForSinglePerformance(EnrichedPerformance aPerformance) {
-    Play play = aPerformance.play;
-    return play.m_name + ": $" + floatToDollars(amountFor(aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
+std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
+    Play play = enriched.play;
+    return play.m_name + ": $" + floatToDollars(amountFor(enriched) / 100) + " " + std::to_string(enriched.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(StatementData data) {
