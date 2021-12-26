@@ -45,12 +45,12 @@ int volumeCreditsFor(Performance aPerformance) {
     return result;
 }
 
-std::string statementLineForSinglePerformance(Plays plays, Performance aPerformance) {
+std::string statementLineForSinglePerformance(Performance aPerformance) {
     Play play = playFor(aPerformance);
     return play.m_name + ": $" + floatToDollars(amountFor(aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
 }
 
-int totalVolumeCreditsFor(Plays plays, StatementData data) {
+int totalVolumeCreditsFor(StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
         Play play = playFor(performance);
@@ -59,7 +59,7 @@ int totalVolumeCreditsFor(Plays plays, StatementData data) {
     return volumeCredits;
 }
 
-int totalAmountFor(Plays plays, StatementData data) {
+int totalAmountFor(StatementData data) {
     int totalAmount = 0;
     for (Performance performance : data.performances) {
         Play play = playFor(performance);
@@ -69,15 +69,15 @@ int totalAmountFor(Plays plays, StatementData data) {
     return totalAmount;
 }
 
-std::string renderPlainText(Invoice invoice, Plays plays, StatementData data) {
+std::string renderPlainText(Invoice invoice, StatementData data) {
     std::string result = "Statement for " + invoice.m_customer + ":\n";
     for (Performance performance : invoice.m_performances) {
-        result += statementLineForSinglePerformance(plays, performance);
+        result += statementLineForSinglePerformance(performance);
         result += "\n";
     }
 
-    int totalAmount = totalAmountFor(plays, data);
-    int volumeCredits = totalVolumeCreditsFor(plays, data);
+    int totalAmount = totalAmountFor(data);
+    int volumeCredits = totalVolumeCreditsFor(data);
 
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits.\n";
@@ -91,16 +91,16 @@ std::string htmlHeader(StatementData data) {
     return result;
 }
 
-std::string renderHTML(Plays plays, StatementData statementData) {
+std::string renderHTML(StatementData statementData) {
     std::string result = htmlHeader(statementData);
     result += "<body>";
     for (Performance performance : statementData.performances) {
         result += "<li>";
-        result += statementLineForSinglePerformance(plays, performance);
+        result += statementLineForSinglePerformance(performance);
         result += "</li>";
     }
-    int totalAmount = totalAmountFor(plays, statementData);
-    int volumeCredits = totalVolumeCreditsFor(plays, statementData);
+    int totalAmount = totalAmountFor(statementData);
+    int volumeCredits = totalVolumeCreditsFor(statementData);
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits";
     result += "</body>";
@@ -116,15 +116,15 @@ StatementData statementDataFromInvoice(Invoice invoice) {
     return statementData;
 }
 
-std::string statement(Invoice invoice, Plays plays,
-    RenderingMode mode = RenderingMode::plaintext ) {
+std::string statement(Invoice invoice,
+ RenderingMode mode = RenderingMode::plaintext ) {
     StatementData statementData = statementDataFromInvoice(invoice);
 
     switch (mode) {
     case RenderingMode::plaintext:
-        return renderPlainText(invoice, plays, statementData);
+        return renderPlainText(invoice, statementData);
     case RenderingMode::HTML:
-        return renderHTML(plays, statementData);
+        return renderHTML(statementData);
     default:
         return "Invalid mode\n";
     }

@@ -8,5 +8,5 @@ Hopefully I remember to snapshot enough to capture the main refactorings.
 
 int main()
 {
-    std::cout << statement(example, plays) << std::endl;
+    std::cout << statement(example) << std::endl;
 }

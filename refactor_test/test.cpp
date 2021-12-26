@@ -2,7 +2,7 @@
 #include "../RefactoringExample/refactoring_example.h"
 
 TEST(RefactoringTest, OutputsCorrectString) {
-	std::string actual = statement(example, plays, RenderingMode::plaintext);
+	std::string actual = statement(example, RenderingMode::plaintext);
 	const char* expected_raw_text = 
 		"Statement for BigCo:\nHamlet: $650.00 55 seats\nAs you like it: "
 		"$580.00 35 seats\nOthello: $500.00 40 seats\nAmount owed is "
@@ -12,7 +12,7 @@ TEST(RefactoringTest, OutputsCorrectString) {
 }
 
 TEST(RefactoringTest, OutputCorrectHTMLString) {
-	std::string actual = statement(example, plays, RenderingMode::HTML);
+	std::string actual = statement(example, RenderingMode::HTML);
 	const char* expected_html_test =
 		"<html>"
 		"<head>"
