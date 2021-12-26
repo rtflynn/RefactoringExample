@@ -69,9 +69,9 @@ int totalAmountFor(StatementData data) {
     return totalAmount;
 }
 
-std::string renderPlainText(Invoice invoice, StatementData data) {
-    std::string result = "Statement for " + invoice.m_customer + ":\n";
-    for (Performance performance : invoice.m_performances) {
+std::string renderPlainText(StatementData data) {
+    std::string result = "Statement for " + data.customer + ":\n";
+    for (Performance performance : data.performances) {
         EnrichedPerformance enriched = EnrichedPerformance(performance);
         result += statementLineForSinglePerformance(enriched);
         result += "\n";
@@ -123,7 +123,7 @@ std::string statement(Invoice invoice,
 
     switch (mode) {
     case RenderingMode::plaintext:
-        return renderPlainText(invoice, statementData);
+        return renderPlainText(statementData);
     case RenderingMode::HTML:
         return renderHTML(statementData);
     default:
