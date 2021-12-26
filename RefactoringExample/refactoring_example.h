@@ -44,8 +44,8 @@ std::string renderHTML(StatementData statementData) {
         result += statementLineForSinglePerformance(performance);
         result += "</li>";
     }
-    int totalAmount = totalAmountFor(statementData);
-    int volumeCredits = totalVolumeCreditsFor(statementData);
+    int totalAmount = statementData.totalAmount;
+    int volumeCredits = statementData.totalVolumeCredits;
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits";
     result += "</body>";

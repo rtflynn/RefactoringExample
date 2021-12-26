@@ -8,11 +8,17 @@ class StatementData {
 public:
     std::string customer;
     std::vector<EnrichedPerformance> performances;
+    int totalAmount;
+    int totalVolumeCredits;
     StatementData(Invoice invoice) {
         customer = invoice.m_customer;
+        totalAmount = 0;
+        totalVolumeCredits = 0;
         for (Performance perf : invoice.m_performances) {
             EnrichedPerformance enriched = EnrichedPerformance(perf);
             performances.push_back(enriched);
+            totalAmount += enriched.amount;
+            totalVolumeCredits += enriched.volumeCredits;
         }
     }
 };
