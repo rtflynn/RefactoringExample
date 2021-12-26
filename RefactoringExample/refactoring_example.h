@@ -86,15 +86,15 @@ std::string renderPlainText(Invoice invoice, Plays plays, StatementData data) {
     return result;
 }
 
-std::string htmlHeader(Invoice invoice, StatementData data) {
+std::string htmlHeader(StatementData data) {
     std::string result = "<html>";
     std::string header = "Statement for " + data.customer;
     result += "<head>" + header + "</head>";
     return result;
 }
 
-std::string renderHTML(Invoice invoice, Plays plays, StatementData statementData) {
-    std::string result = htmlHeader(invoice, statementData);
+std::string renderHTML(Plays plays, StatementData statementData) {
+    std::string result = htmlHeader(statementData);
     result += "<body>";
     for (Performance performance : statementData.performances) {
         result += "<li>";
@@ -120,7 +120,7 @@ std::string statement(Invoice invoice, Plays plays,
     case RenderingMode::plaintext:
         return renderPlainText(invoice, plays, statementData);
     case RenderingMode::HTML:
-        return renderHTML(invoice, plays, statementData);
+        return renderHTML(plays, statementData);
     default:
         return "Invalid mode\n";
     }
