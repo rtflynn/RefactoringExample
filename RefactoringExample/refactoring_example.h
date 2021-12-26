@@ -36,18 +36,16 @@ std::string htmlHeader(StatementData data) {
     return result;
 }
 
-std::string renderHTML(StatementData statementData) {
-    std::string result = htmlHeader(statementData);
+std::string renderHTML(StatementData data) {
+    std::string result = htmlHeader(data);
     result += "<body>";
-    for (EnrichedPerformance performance : statementData.performances) {
+    for (EnrichedPerformance performance : data.performances) {
         result += "<li>";
         result += statementLineForSinglePerformance(performance);
         result += "</li>";
     }
-    int totalAmount = statementData.totalAmount;
-    int volumeCredits = statementData.totalVolumeCredits;
-    result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
-    result += "You earned " + std::to_string(volumeCredits) + " credits";
+    result += "Amount owed is $" + floatToDollars(data.totalAmount / 100) + "\n";
+    result += "You earned " + std::to_string(data.totalVolumeCredits) + " credits";
     result += "</body>";
     result += "</html>";
     return result;
