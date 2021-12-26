@@ -9,15 +9,42 @@ Play playFor(Performance& performance) {
 	return plays.m_plays[playID];
 }
 
+class EnrichedPerformance;
+
+int amountFor(Play aPlayData, Performance aPerformance) {
+    int result = 0;
+    switch (aPlayData.m_type) {
+    case playType::tragedy:
+        result = 40000;
+        if (aPerformance.m_audience > 30) {
+            result += 1000 * (aPerformance.m_audience - 30);
+        }
+        break;
+    case playType::comedy:
+        result = 30000;
+        if (aPerformance.m_audience > 20) {
+            result += 10000 + 500 * (aPerformance.m_audience - 20);
+        }
+        result += 300 * aPerformance.m_audience;
+        break;
+    default:
+        throw std::invalid_argument("Unsupported playType.\n");
+    }
+    return result;
+}
+
 class EnrichedPerformance {
 public:
 	std::string m_playID;
 	int m_audience;
 	Play play;
+	int amount;
 
 	EnrichedPerformance(Performance performance) {
 		m_playID = performance.m_playID;
 		m_audience = performance.m_audience;
 		play = playFor(performance);
+		amount = amountFor(play, performance);
+
 	}
 };

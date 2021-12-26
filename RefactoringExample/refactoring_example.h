@@ -11,29 +11,6 @@
 #include "enriched_performance.h"
 
 
-int amountFor(EnrichedPerformance enriched) {
-    Play aPlayData = enriched.play;
-    int result = 0;
-    switch (aPlayData.m_type) {
-    case playType::tragedy:
-        result = 40000;
-        if (enriched.m_audience > 30) {
-            result += 1000 * (enriched.m_audience - 30);
-        }
-        break;
-    case playType::comedy:
-        result = 30000;
-        if (enriched.m_audience > 20) {
-            result += 10000 + 500 * (enriched.m_audience - 20);
-        }
-        result += 300 * enriched.m_audience;
-        break;
-    default:
-        throw std::invalid_argument("Unsupported playType.\n");
-    }
-    return result;
-}
-
 int volumeCreditsFor(EnrichedPerformance enriched) {
     int result = 0;
     result += std::max(enriched.m_audience - 30, 0);
@@ -45,7 +22,7 @@ int volumeCreditsFor(EnrichedPerformance enriched) {
 }
 
 std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
-    return enriched.play.m_name + ": $" + floatToDollars(amountFor(enriched) / 100) + " " + std::to_string(enriched.m_audience) + " seats";
+    return enriched.play.m_name + ": $" + floatToDollars(enriched.amount / 100) + " " + std::to_string(enriched.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(StatementData data) {
@@ -59,7 +36,8 @@ int totalVolumeCreditsFor(StatementData data) {
 int totalAmountFor(StatementData data) {
     int totalAmount = 0;
     for (Performance performance : data.performances) {
-        totalAmount += amountFor(performance);
+        EnrichedPerformance enriched = EnrichedPerformance(performance);
+        totalAmount += enriched.amount;
     }
     return totalAmount;
 }
@@ -67,8 +45,7 @@ int totalAmountFor(StatementData data) {
 std::string renderPlainText(StatementData data) {
     std::string result = "Statement for " + data.customer + ":\n";
     for (Performance performance : data.performances) {
-        EnrichedPerformance enriched = EnrichedPerformance(performance);
-        result += statementLineForSinglePerformance(enriched);
+        result += statementLineForSinglePerformance(performance);
         result += "\n";
     }
     int totalAmount = totalAmountFor(data);
@@ -106,7 +83,9 @@ std::string renderHTML(StatementData statementData) {
 StatementData statementDataFromInvoice(Invoice invoice) {
     StatementData statementData;
     statementData.customer = invoice.m_customer;
-    statementData.performances = invoice.m_performances;
+    for (Performance perf : invoice.m_performances) {
+        statementData.performances.push_back(perf);
+    }
     return statementData;
 }
 
