@@ -55,7 +55,7 @@ std::string renderHTML(StatementData statementData) {
 
 std::string statement(Invoice invoice,
  RenderingMode mode = RenderingMode::plaintext ) {
-    StatementData statementData = statementDataFromInvoice(invoice);
+    StatementData statementData = StatementData(invoice);
     switch (mode) {
     case RenderingMode::plaintext:
         return renderPlainText(statementData);

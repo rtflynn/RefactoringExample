@@ -8,7 +8,13 @@ class StatementData {
 public:
     std::string customer;
     std::vector<EnrichedPerformance> performances;
-
+    StatementData(Invoice invoice) {
+        customer = invoice.m_customer;
+        for (Performance perf : invoice.m_performances) {
+            EnrichedPerformance enriched = EnrichedPerformance(perf);
+            performances.push_back(enriched);
+        }
+    }
 };
 
 int totalAmountFor(StatementData data) {
@@ -25,14 +31,4 @@ int totalVolumeCreditsFor(StatementData data) {
         volumeCredits += performance.volumeCredits;
     }
     return volumeCredits;
-}
-
-StatementData statementDataFromInvoice(Invoice invoice) {
-    StatementData statementData;
-    statementData.customer = invoice.m_customer;
-    for (Performance perf : invoice.m_performances) {
-        EnrichedPerformance enriched = EnrichedPerformance(perf);
-        statementData.performances.push_back(enriched);
-    }
-    return statementData;
 }
