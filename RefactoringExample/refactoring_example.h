@@ -45,8 +45,7 @@ int volumeCreditsFor(EnrichedPerformance enriched) {
 }
 
 std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
-    Play play = enriched.play;
-    return play.m_name + ": $" + floatToDollars(amountFor(enriched) / 100) + " " + std::to_string(enriched.m_audience) + " seats";
+    return enriched.play.m_name + ": $" + floatToDollars(amountFor(enriched) / 100) + " " + std::to_string(enriched.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(StatementData data) {
