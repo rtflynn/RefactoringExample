@@ -16,22 +16,6 @@ std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
         " " + std::to_string(enriched.m_audience) + " seats";
 }
 
-int totalVolumeCreditsFor(StatementData data) {
-    int volumeCredits = 0;
-    for (EnrichedPerformance performance : data.performances) {
-        volumeCredits += performance.volumeCredits;
-    }
-    return volumeCredits;
-}
-
-int totalAmountFor(StatementData data) {
-    int totalAmount = 0;
-    for (EnrichedPerformance performance : data.performances) {
-        totalAmount += performance.amount;
-    }
-    return totalAmount;
-}
-
 std::string renderPlainText(StatementData data) {
     std::string result = "Statement for " + data.customer + ":\n";
     for (EnrichedPerformance performance : data.performances) {
@@ -67,17 +51,6 @@ std::string renderHTML(StatementData statementData) {
     result += "</body>";
     result += "</html>";
     return result;
-}
-
-
-StatementData statementDataFromInvoice(Invoice invoice) {
-    StatementData statementData;
-    statementData.customer = invoice.m_customer;
-    for (Performance perf : invoice.m_performances) {
-        EnrichedPerformance enriched = EnrichedPerformance(perf);
-        statementData.performances.push_back(enriched);
-    }
-    return statementData;
 }
 
 std::string statement(Invoice invoice,
