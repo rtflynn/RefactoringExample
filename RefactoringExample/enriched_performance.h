@@ -17,6 +17,6 @@ class EnrichedPerformance {
 	EnrichedPerformance(Performance performance) {
 		m_playID = performance.m_playID;
 		m_audience = performance.m_audience;
-		Play = playFor(plays, )
+		play = playFor(plays, performance);
 	}
 };
