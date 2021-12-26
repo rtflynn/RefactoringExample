@@ -34,12 +34,11 @@ int amountFor(EnrichedPerformance aPerformance) {
     return result;
 }
 
-int volumeCreditsFor(Performance aPerformance) {
-    EnrichedPerformance enriched = EnrichedPerformance(aPerformance);
+int volumeCreditsFor(EnrichedPerformance aPerformance) {
     int result = 0;
     result += std::max(aPerformance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
-    if (enriched.play.m_type == playType::comedy) {
+    if (aPerformance.play.m_type == playType::comedy) {
         result += std::floor(aPerformance.m_audience / 5);
     }
     return result;
@@ -53,8 +52,8 @@ std::string statementLineForSinglePerformance(EnrichedPerformance aPerformance) 
 int totalVolumeCreditsFor(StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
-        Play play = playFor(performance);
-        volumeCredits += volumeCreditsFor(performance);
+        EnrichedPerformance enriched = EnrichedPerformance(performance);
+        volumeCredits += volumeCreditsFor(enriched);
     }
     return volumeCredits;
 }
@@ -76,10 +75,8 @@ std::string renderPlainText(StatementData data) {
         result += statementLineForSinglePerformance(enriched);
         result += "\n";
     }
-
     int totalAmount = totalAmountFor(data);
     int volumeCredits = totalVolumeCreditsFor(data);
-
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits.\n";
     return result;
@@ -120,7 +117,6 @@ StatementData statementDataFromInvoice(Invoice invoice) {
 std::string statement(Invoice invoice,
  RenderingMode mode = RenderingMode::plaintext ) {
     StatementData statementData = statementDataFromInvoice(invoice);
-
     switch (mode) {
     case RenderingMode::plaintext:
         return renderPlainText(statementData);
