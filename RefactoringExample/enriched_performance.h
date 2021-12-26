@@ -11,6 +11,19 @@ Play playFor(Performance& performance) {
 
 class EnrichedPerformance;
 
+/*
+If we decide to add more plays, the extra logic (as currently written)
+will have to go into this performance code.  This is super non-ideal.
+What we want is for plays to know how to compute their own volume credits
+and cost for a performance.  
+
+We should have a Play base class which is abstract, with a playType field
+(which we may end up not needing, since we're going to replace switch statements
+with polymorphism).  We should have a volumeCreditsFor and amountFor type of
+calculation.
+*/
+
+
 int volumeCreditsFor(Performance performance) {
     int result = 0;
     result += std::max(performance.m_audience - 30, 0);

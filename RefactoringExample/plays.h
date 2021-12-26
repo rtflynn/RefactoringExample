@@ -8,7 +8,8 @@ enum class playType {
 	none
 };
 
-struct Play {
+class Play {
+public:
 	std::string m_name;
 	playType m_type;
 	Play(std::string name="", playType type=playType::none) : m_name(name), m_type(type) {}
