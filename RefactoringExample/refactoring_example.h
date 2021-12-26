@@ -36,11 +36,10 @@ int amountFor(Performance aPerformance) {
 
 int volumeCreditsFor(Performance aPerformance) {
     EnrichedPerformance enriched = EnrichedPerformance(aPerformance);
-    Play play = enriched.play;
     int result = 0;
     result += std::max(aPerformance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
-    if (play.m_type == playType::comedy) {
+    if (enriched.play.m_type == playType::comedy) {
         result += std::floor(aPerformance.m_audience / 5);
     }
     return result;
