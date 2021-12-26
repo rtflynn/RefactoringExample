@@ -11,6 +11,16 @@ Play playFor(Performance& performance) {
 
 class EnrichedPerformance;
 
+int volumeCreditsFor(Play play, Performance enriched) {
+    int result = 0;
+    result += std::max(enriched.m_audience - 30, 0);
+    // Add extra credit for every ten comedy attendees
+    if (play.m_type == playType::comedy) {
+        result += std::floor(enriched.m_audience / 5);
+    }
+    return result;
+}
+
 int amountFor(Play aPlayData, Performance aPerformance) {
     int result = 0;
     switch (aPlayData.m_type) {
@@ -39,12 +49,13 @@ public:
 	int m_audience;
 	Play play;
 	int amount;
+    int volumeCredits;
 
 	EnrichedPerformance(Performance performance) {
 		m_playID = performance.m_playID;
 		m_audience = performance.m_audience;
 		play = playFor(performance);
 		amount = amountFor(play, performance);
-
+        volumeCredits = volumeCreditsFor(play, performance);
 	}
 };

@@ -11,16 +11,6 @@
 #include "enriched_performance.h"
 
 
-int volumeCreditsFor(EnrichedPerformance enriched) {
-    int result = 0;
-    result += std::max(enriched.m_audience - 30, 0);
-    // Add extra credit for every ten comedy attendees
-    if (enriched.play.m_type == playType::comedy) {
-        result += std::floor(enriched.m_audience / 5);
-    }
-    return result;
-}
-
 std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
     return enriched.play.m_name + ": $" + floatToDollars(enriched.amount / 100) + " " + std::to_string(enriched.m_audience) + " seats";
 }
@@ -28,7 +18,8 @@ std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
 int totalVolumeCreditsFor(StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
-        volumeCredits += volumeCreditsFor(performance);
+        EnrichedPerformance enriched = EnrichedPerformance(performance);
+        volumeCredits += enriched.volumeCredits;
     }
     return volumeCredits;
 }
