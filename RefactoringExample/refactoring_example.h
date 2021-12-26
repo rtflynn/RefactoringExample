@@ -51,8 +51,7 @@ std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
 int totalVolumeCreditsFor(StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
-        EnrichedPerformance enriched = EnrichedPerformance(performance);
-        volumeCredits += volumeCreditsFor(enriched);
+        volumeCredits += volumeCreditsFor(performance);
     }
     return volumeCredits;
 }
@@ -60,9 +59,7 @@ int totalVolumeCreditsFor(StatementData data) {
 int totalAmountFor(StatementData data) {
     int totalAmount = 0;
     for (Performance performance : data.performances) {
-        Play play = playFor(performance);
-        int thisAmount = amountFor(performance);
-        totalAmount += thisAmount;
+        totalAmount += amountFor(performance);
     }
     return totalAmount;
 }
