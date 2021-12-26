@@ -12,30 +12,29 @@
 
 
 std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
-    return enriched.play.m_name + ": $" + floatToDollars(enriched.amount / 100) + " " + std::to_string(enriched.m_audience) + " seats";
+    return enriched.play.m_name + ": $" + floatToDollars(enriched.amount / 100) +
+        " " + std::to_string(enriched.m_audience) + " seats";
 }
 
 int totalVolumeCreditsFor(StatementData data) {
     int volumeCredits = 0;
-    for (Performance performance : data.performances) {
-        EnrichedPerformance enriched = EnrichedPerformance(performance);
-        volumeCredits += enriched.volumeCredits;
+    for (EnrichedPerformance performance : data.performances) {
+        volumeCredits += performance.volumeCredits;
     }
     return volumeCredits;
 }
 
 int totalAmountFor(StatementData data) {
     int totalAmount = 0;
-    for (Performance performance : data.performances) {
-        EnrichedPerformance enriched = EnrichedPerformance(performance);
-        totalAmount += enriched.amount;
+    for (EnrichedPerformance performance : data.performances) {
+        totalAmount += performance.amount;
     }
     return totalAmount;
 }
 
 std::string renderPlainText(StatementData data) {
     std::string result = "Statement for " + data.customer + ":\n";
-    for (Performance performance : data.performances) {
+    for (EnrichedPerformance performance : data.performances) {
         result += statementLineForSinglePerformance(performance);
         result += "\n";
     }
@@ -56,7 +55,7 @@ std::string htmlHeader(StatementData data) {
 std::string renderHTML(StatementData statementData) {
     std::string result = htmlHeader(statementData);
     result += "<body>";
-    for (Performance performance : statementData.performances) {
+    for (EnrichedPerformance performance : statementData.performances) {
         result += "<li>";
         result += statementLineForSinglePerformance(performance);
         result += "</li>";
@@ -75,7 +74,8 @@ StatementData statementDataFromInvoice(Invoice invoice) {
     StatementData statementData;
     statementData.customer = invoice.m_customer;
     for (Performance perf : invoice.m_performances) {
-        statementData.performances.push_back(perf);
+        EnrichedPerformance enriched = EnrichedPerformance(perf);
+        statementData.performances.push_back(enriched);
     }
     return statementData;
 }

@@ -2,10 +2,10 @@
 #include <string>
 #include "plays.h"
 #include <vector>
+#include "enriched_performance.h"
 
 class StatementData {
 public:
 	std::string customer;
-	std::vector<Performance> performances;
-
+	std::vector<EnrichedPerformance> performances;
 };
