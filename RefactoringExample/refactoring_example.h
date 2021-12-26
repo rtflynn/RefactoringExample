@@ -52,7 +52,7 @@ std::string statementLineForSinglePerformance(Plays plays, Performance aPerforma
     return play.m_name + ": $" + floatToDollars(amountFor(plays, aPerformance) / 100) + " " + std::to_string(aPerformance.m_audience) + " seats";
 }
 
-int totalVolumeCreditsFor(Invoice invoice, Plays plays, StatementData data) {
+int totalVolumeCreditsFor(Plays plays, StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
         PlayData play = playFor(plays, performance);
@@ -61,7 +61,7 @@ int totalVolumeCreditsFor(Invoice invoice, Plays plays, StatementData data) {
     return volumeCredits;
 }
 
-int totalAmountFor(Invoice invoice, Plays plays, StatementData data) {
+int totalAmountFor(Plays plays, StatementData data) {
     int totalAmount = 0;
     for (Performance performance : data.performances) {
         PlayData play = playFor(plays, performance);
@@ -78,8 +78,8 @@ std::string renderPlainText(Invoice invoice, Plays plays, StatementData data) {
         result += "\n";
     }
 
-    int totalAmount = totalAmountFor(invoice, plays, data);
-    int volumeCredits = totalVolumeCreditsFor(invoice, plays, data);
+    int totalAmount = totalAmountFor(plays, data);
+    int volumeCredits = totalVolumeCreditsFor(plays, data);
 
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits.\n";
@@ -101,8 +101,8 @@ std::string renderHTML(Invoice invoice, Plays plays, StatementData statementData
         result += statementLineForSinglePerformance(plays, performance);
         result += "</li>";
     }
-    int totalAmount = totalAmountFor(invoice, plays, statementData);
-    int volumeCredits = totalVolumeCreditsFor(invoice, plays, statementData);
+    int totalAmount = totalAmountFor(plays, statementData);
+    int volumeCredits = totalVolumeCreditsFor(plays, statementData);
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits";
     result += "</body>";
