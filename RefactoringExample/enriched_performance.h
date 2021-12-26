@@ -10,6 +10,7 @@ Play playFor(Performance& performance) {
 }
 
 class EnrichedPerformance {
+public:
 	std::string m_playID;
 	int m_audience;
 	Play play;

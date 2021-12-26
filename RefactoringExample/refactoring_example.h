@@ -34,7 +34,9 @@ int amountFor(Performance aPerformance) {
     return result;
 }
 
-int volumeCreditsFor(Play play, Performance aPerformance) {
+int volumeCreditsFor(Performance aPerformance) {
+    EnrichedPerformance enriched = EnrichedPerformance(aPerformance);
+    Play play = enriched.play;
     int result = 0;
     result += std::max(aPerformance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
@@ -53,7 +55,7 @@ int totalVolumeCreditsFor(Plays plays, StatementData data) {
     int volumeCredits = 0;
     for (Performance performance : data.performances) {
         Play play = playFor(performance);
-        volumeCredits += volumeCreditsFor(play, performance);
+        volumeCredits += volumeCreditsFor(performance);
     }
     return volumeCredits;
 }
