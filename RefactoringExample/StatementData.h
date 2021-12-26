@@ -22,19 +22,3 @@ public:
         }
     }
 };
-
-int totalAmountFor(StatementData data) {
-    int totalAmount = 0;
-    for (EnrichedPerformance performance : data.performances) {
-        totalAmount += performance.amount;
-    }
-    return totalAmount;
-}
-
-int totalVolumeCreditsFor(StatementData data) {
-    int volumeCredits = 0;
-    for (EnrichedPerformance performance : data.performances) {
-        volumeCredits += performance.volumeCredits;
-    }
-    return volumeCredits;
-}

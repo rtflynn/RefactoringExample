@@ -22,8 +22,8 @@ std::string renderPlainText(StatementData data) {
         result += statementLineForSinglePerformance(performance);
         result += "\n";
     }
-    int totalAmount = totalAmountFor(data);
-    int volumeCredits = totalVolumeCreditsFor(data);
+    int totalAmount = data.totalAmount;
+    int volumeCredits = data.totalVolumeCredits;
     result += "Amount owed is $" + floatToDollars(totalAmount / 100) + "\n";
     result += "You earned " + std::to_string(volumeCredits) + " credits.\n";
     return result;
