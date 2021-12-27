@@ -20,6 +20,10 @@ struct Invoice {
 Performance first("hamlet", 55);
 Performance second("as-like", 35);
 Performance third("othello", 40);
+Performance fourth("barney", 60);
 
 std::vector<Performance> performances = { first, second, third };
 Invoice example("BigCo", performances);
+
+std::vector<Performance> barneyPerformances = { fourth };
+Invoice barneyTestInvoice("BarneyTest", barneyPerformances);

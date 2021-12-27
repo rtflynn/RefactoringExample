@@ -27,5 +27,14 @@ TEST(RefactoringTest, OutputCorrectHTMLString) {
 		"</html>";
 	std::string expected = std::string(expected_html_test);
 	EXPECT_EQ(expected, actual);
+}
+
+TEST(RefactoringTest, ChildrensPlayPerformance) {
+	std::string actual = statement(barneyTestInvoice, RenderingMode::plaintext);
+	const char* expected_chars = 
+		"Statement for BarneyTest:\nBarney On Ice: $300.00 60 seats\n"
+		"Amount owed is $300.00\nYou earned 60 credits.\n";
+	std::string expected(expected_chars);
+	EXPECT_EQ(expected, actual);
 
 }
