@@ -23,7 +23,7 @@
     <ClInclude Include="plays.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="invoices.h">
+    <ClInclude Include="invoice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="set_precision.h">
@@ -39,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="enriched_performance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="performance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
