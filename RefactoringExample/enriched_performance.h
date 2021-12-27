@@ -3,7 +3,6 @@
 #include "performance.h"
 #include "plays.h"
 
-
 class EnrichedPerformance;
 
 // We need the play associated with a performance in order to

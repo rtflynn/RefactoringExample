@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RefactoringExample.cpp">
+    <ClCompile Include="render_statement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="set_precision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="refactoring_example.h">
+    <ClInclude Include="render_statement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rendering_modes_enum.h">

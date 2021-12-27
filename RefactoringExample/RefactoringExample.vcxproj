@@ -139,14 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RefactoringExample.cpp" />
+    <ClCompile Include="render_statement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="enriched_performance.h" />
     <ClInclude Include="invoice.h" />
     <ClInclude Include="performance.h" />
     <ClInclude Include="plays.h" />
-    <ClInclude Include="refactoring_example.h" />
+    <ClInclude Include="render_statement.h" />
     <ClInclude Include="rendering_modes_enum.h" />
     <ClInclude Include="set_precision.h" />
     <ClInclude Include="StatementData.h" />

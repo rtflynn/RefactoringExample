@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../RefactoringExample/refactoring_example.h"
+#include "../RefactoringExample/render_statement.h"
 
 TEST(RefactoringTest, OutputsCorrectString) {
 	std::string actual = statement(example, RenderingMode::plaintext);
