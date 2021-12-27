@@ -2,17 +2,11 @@
 #include <unordered_map>
 #include <string>
 
-enum class playType {
-	comedy,
-	tragedy,
-	none
-};
 
 class Play {
 public:
 	std::string m_name;
-	playType m_type;
-	Play(std::string name="", playType type=playType::none) : m_name(name), m_type(type) {}
+	Play(std::string name="") : m_name(name) {}
 
 	virtual int amountFor(int audience) = 0;
 	virtual int volumeCreditsFor(int audience) { 
@@ -22,7 +16,7 @@ public:
 
 class Comedy : public Play {
 public:
-	Comedy(std::string name = "") : Play(name, playType::comedy) {
+	Comedy(std::string name = "") : Play(name) {
 	}
 	int amountFor(int audience) override {
 		int result = 30000;
@@ -42,7 +36,7 @@ public:
 
 class Tragedy : public Play {
 public:
-	Tragedy(std::string name="") : Play(name, playType::tragedy) {}
+	Tragedy(std::string name="") : Play(name) {}
 	int amountFor(int audience) override { 
 		int result = 40000;
 		if (audience > 30) { result += 1000 * (audience - 30); }
