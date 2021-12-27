@@ -34,6 +34,7 @@ public:
 	}
 	int volumeCreditsFor(int audience) { 
 		int result =  Play::volumeCreditsFor(audience);
+		// Add extra credit for every ten comedy attendees
 		result += std::floor(audience / 5);
 		return result;
 	}
@@ -44,9 +45,7 @@ public:
 	Tragedy(std::string name="") : Play(name, playType::tragedy) {}
 	int amountFor(int audience) override { 
 		int result = 40000;
-		if (audience > 30) {
-			result += 1000 * (audience - 30);
-		}
+		if (audience > 30) { result += 1000 * (audience - 30); }
 		return result;
 	}
 };

@@ -28,27 +28,15 @@ matter for this.  So we'll extend Play via this axis.
 
 
 int volumeCreditsFor(Performance performance) {
-    int result = 0;
-    result += std::max(performance.m_audience - 30, 0);
-    // Add extra credit for every ten comedy attendees
     Play* play = playFor(performance);
-    result = play->volumeCreditsFor(performance.m_audience);
+    int result = play->volumeCreditsFor(performance.m_audience);
     return result;
 }
 
 int amountFor(Performance aPerformance) {
     int result = 0;
     Play* aPlayData = playFor(aPerformance);
-    switch (aPlayData->m_type) {
-    case playType::tragedy:
-        result = aPlayData->amountFor(aPerformance.m_audience);
-        break;
-    case playType::comedy:
-        result = aPlayData->amountFor(aPerformance.m_audience);
-        break;
-    default:
-        throw std::invalid_argument("Unsupported playType.\n");
-    }
+    result = aPlayData->amountFor(aPerformance.m_audience);
     return result;
 }
 
