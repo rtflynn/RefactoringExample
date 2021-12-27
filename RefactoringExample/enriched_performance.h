@@ -32,9 +32,7 @@ int volumeCreditsFor(Performance performance) {
     result += std::max(performance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
     Play* play = playFor(performance);
-    if (play->m_type == playType::comedy) {
-        result += play->volumeCreditsFor(performance.m_audience);
-    }
+    result = play->volumeCreditsFor(performance.m_audience);
     return result;
 }
 

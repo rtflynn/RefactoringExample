@@ -15,7 +15,9 @@ public:
 	Play(std::string name="", playType type=playType::none) : m_name(name), m_type(type) {}
 
 	virtual int amountFor(int audience) = 0;
-	virtual int volumeCreditsFor(int audience) = 0;
+	virtual int volumeCreditsFor(int audience) { 
+		return std::max(audience - 30, 0);
+	};
 };
 
 class Comedy : public Play {
@@ -30,8 +32,10 @@ public:
 		result += 300 * audience;
 		return result;
 	}
-	int volumeCreditsFor(int audience) override { 
-		return std::floor(audience / 5);
+	int volumeCreditsFor(int audience) { 
+		int result =  Play::volumeCreditsFor(audience);
+		result += std::floor(audience / 5);
+		return result;
 	}
 };
 
@@ -45,7 +49,6 @@ public:
 		}
 		return result;
 	}
-	int volumeCreditsFor(int audience) override { return -1; }
 };
 
 Tragedy hamlet("Hamlet");
