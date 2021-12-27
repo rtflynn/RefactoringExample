@@ -34,9 +34,8 @@ int volumeCreditsFor(Performance performance) {
 }
 
 int amountFor(Performance aPerformance) {
-    int result = 0;
-    Play* aPlayData = playFor(aPerformance);
-    result = aPlayData->amountFor(aPerformance.m_audience);
+    Play* play = playFor(aPerformance);
+    int result = play->amountFor(aPerformance.m_audience);
     return result;
 }
 
