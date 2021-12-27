@@ -4,7 +4,7 @@
 #include "plays.h"
 
 
-Play playFor(Performance& performance) {
+Play* playFor(Performance& performance) {
 	std::string playID = performance.m_playID;
 	return plays.m_plays[playID];
 }
@@ -21,6 +21,9 @@ We should have a Play base class which is abstract, with a playType field
 (which we may end up not needing, since we're going to replace switch statements
 with polymorphism).  We should have a volumeCreditsFor and amountFor type of
 calculation.
+
+Thinking on this again, it's the PlayType, not the specific play, that should
+matter for this.  So we'll extend Play via this axis.
 */
 
 
@@ -28,8 +31,8 @@ int volumeCreditsFor(Performance performance) {
     int result = 0;
     result += std::max(performance.m_audience - 30, 0);
     // Add extra credit for every ten comedy attendees
-    Play play = playFor(performance);
-    if (play.m_type == playType::comedy) {
+    Play* play = playFor(performance);
+    if (play->m_type == playType::comedy) {
         result += std::floor(performance.m_audience / 5);
     }
     return result;
@@ -37,8 +40,8 @@ int volumeCreditsFor(Performance performance) {
 
 int amountFor(Performance aPerformance) {
     int result = 0;
-    Play aPlayData = playFor(aPerformance);
-    switch (aPlayData.m_type) {
+    Play* aPlayData = playFor(aPerformance);
+    switch (aPlayData->m_type) {
     case playType::tragedy:
         result = 40000;
         if (aPerformance.m_audience > 30) {
@@ -62,7 +65,7 @@ class EnrichedPerformance {
 public:
 	std::string m_playID;
 	int m_audience;
-	Play play;
+	Play* play;
 	int amount;
     int volumeCredits;
 
