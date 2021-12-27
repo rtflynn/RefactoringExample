@@ -33,7 +33,7 @@ int volumeCreditsFor(Performance performance) {
     // Add extra credit for every ten comedy attendees
     Play* play = playFor(performance);
     if (play->m_type == playType::comedy) {
-        result += std::floor(performance.m_audience / 5);
+        result += play->volumeCreditsFor(performance.m_audience);
     }
     return result;
 }
@@ -43,17 +43,10 @@ int amountFor(Performance aPerformance) {
     Play* aPlayData = playFor(aPerformance);
     switch (aPlayData->m_type) {
     case playType::tragedy:
-        result = 40000;
-        if (aPerformance.m_audience > 30) {
-            result += 1000 * (aPerformance.m_audience - 30);
-        }
+        result = aPlayData->amountFor(aPerformance.m_audience);
         break;
     case playType::comedy:
-        result = 30000;
-        if (aPerformance.m_audience > 20) {
-            result += 10000 + 500 * (aPerformance.m_audience - 20);
-        }
-        result += 300 * aPerformance.m_audience;
+        result = aPlayData->amountFor(aPerformance.m_audience);
         break;
     default:
         throw std::invalid_argument("Unsupported playType.\n");

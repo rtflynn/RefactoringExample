@@ -22,14 +22,29 @@ class Comedy : public Play {
 public:
 	Comedy(std::string name = "") : Play(name, playType::comedy) {
 	}
-	int amountFor(int audience) override { return -1; }
-	int volumeCreditsFor(int audience) override { return -1; }
+	int amountFor(int audience) override {
+		int result = 30000;
+		if (audience > 20) {
+			result += 10000 + 500 * (audience - 20);
+		}
+		result += 300 * audience;
+		return result;
+	}
+	int volumeCreditsFor(int audience) override { 
+		return std::floor(audience / 5);
+	}
 };
 
 class Tragedy : public Play {
 public:
 	Tragedy(std::string name="") : Play(name, playType::tragedy) {}
-	int amountFor(int audience) override { return -1; }
+	int amountFor(int audience) override { 
+		int result = 40000;
+		if (audience > 30) {
+			result += 1000 * (audience - 30);
+		}
+		return result;
+	}
 	int volumeCreditsFor(int audience) override { return -1; }
 };
 
