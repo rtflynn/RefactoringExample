@@ -17,8 +17,8 @@ public:
         for (Performance perf : invoice.m_performances) {
             EnrichedPerformance enriched = EnrichedPerformance(perf);
             performances.push_back(enriched);
-            totalAmount += enriched.amount;
-            totalVolumeCredits += enriched.volumeCredits;
+            totalAmount += enriched.m_amount;
+            totalVolumeCredits += enriched.m_volumeCredits;
         }
     }
 };

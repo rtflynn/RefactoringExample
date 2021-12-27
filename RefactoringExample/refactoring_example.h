@@ -12,7 +12,7 @@
 
 
 std::string statementLineForSinglePerformance(EnrichedPerformance enriched) {
-    return enriched.play->m_name + ": $" + floatToDollars(enriched.amount / 100) +
+    return enriched.m_play->m_name + ": $" + floatToDollars(enriched.m_amount / 100) +
         " " + std::to_string(enriched.m_audience) + " seats";
 }
 
